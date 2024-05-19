@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Property Details</title>
+</head>
+<body>
+    <h1>Property Details</h1>
+    <p>Place: <span th:text="${property.location}"></span></p>
+    <p>Area: <span th:text="${property.area}"></span> sqft</p>
+    <p>Bedrooms: <span th:text="${property.bedrooms}"></span></p>
+    <p>Bathrooms: <span th:text="${property.bathrooms}"></span></p>
+    <p>Nearby Hospitals: <span th:text="${property.nearby}"></span></p>
+    
+    <button class="interested">I'm Interested</button>
+    <div id="sellerinfo" th:if="${property.seller != null}">
+        <h2>Seller Details</h2>
+        <p>Name: <span th:text="${property.seller.firstName} + ' ' + ${property.seller.lastName}"></span></p>
+        <p>Email: <span th:text="${property.seller.email}"></span></p>
+        <p>Phone: <span th:text="${property.seller.phoneNumber}"></span></p>
+    </div>
+    <script>
+        document.getElementById("sellerinfo").style.display="none";
+        document.querySelector('.interested').onclick = function() {
+            // Your code here
+           var sellerinfo =  document.getElementById("sellerinfo")
+           sellerinfo.style.display = "block";
+        };
+    </script>
+</body>
+</html>

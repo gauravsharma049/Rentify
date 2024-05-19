@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Properties</title>
+    <style>
+        .pagination {
+          display: inline-block;
+        }
+       
+        
+        .pagination li {
+          color: black;
+          float: left;
+          padding: 8px 16px;
+          text-decoration: none;
+          list-style-type: none;
+          border: 1px solid black;
+        }
+        </style>
+</head>
+<body>
+    <h1>Available Properties</h1>
+    <form th:action="@{/b/properties}" method="get">
+        <label for="location">Location:</label>
+        <input type="text" id="location" name="location">
+        <label for="bedrooms">Bedrooms:</label>
+        <select name="bedrooms" id="">
+            <option selected value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <label for="bathrooms">Bathrooms:</label>
+        <select name="bathrooms" id="">
+            <option selected value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <label for="nearby">Nearby Amenity:</label>
+        <input type="text" id="nearby" name="nearby">
+        <button type="submit">Apply Filters</button>
+    </form>
+    <ul>
+        <li th:each="property : ${properties}">
+            <p>Place: <span th:text="${property.location}"></span></p>
+            <p>Area: <span th:text="${property.area}"></span> sqft</p>
+            <p>Bedrooms: <span th:text="${property.bedrooms}"></span></p>
+            <p>Bathrooms: <span th:text="${property.bathrooms}"></span></p>
+            <a th:href="@{/b/properties/{id}(id=${property.id})}">View Details</a>
+        </li>
+    </ul>
+    
+    <!-- Pagination -->
+<div>
+    <ul class="pagination">
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/b/properties(page=0, size=${size})}">First</a>
+        </li>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/b/properties(page=${currentPage - 1}, size=${size})}">Previous</a>
+        </li>
+        <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}" 
+            th:class="${pageNum} == ${currentPage} ? 'active' : ''">
+            <a th:href="@{/b/properties(page=${pageNum}, size=${size})}" th:text="${pageNum + 1}"></a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/b/properties(page=${currentPage + 1}, size=${size})}">Next</a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/b/properties(page=${totalPages - 1}, size=${size})}">Last</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>
